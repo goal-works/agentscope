@@ -1,0 +1,41 @@
+services:
+  database:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: agentscope
+      POSTGRES_USER: agentscope
+      POSTGRES_PASSWORD: agentscope
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agentscope"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - agentscope-data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      AGENTSCOPE_DATABASE_URL: postgresql+psycopg://agentscope:agentscope@database:5432/agentscope
+      AGENTSCOPE_CORS_ORIGINS: http://localhost:3001
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "8001:8001"
+
+  web:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    environment:
+      NEXT_PUBLIC_API_URL: http://api:8001/api
+    depends_on:
+      - api
+    ports:
+      - "3001:3001"
+
+volumes:
+  agentscope-data:
