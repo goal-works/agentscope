@@ -14,11 +14,11 @@ cd frontend
 npm run validate
 ```
 
-Browser tests require the API running on port 8001 and a completed production frontend build:
+Browser tests require a completed production frontend build. Playwright starts an isolated SQLite API on port 8001 and the production frontend on port 3001, then stops both:
 
 ```bash
 cd frontend
-NEXT_PUBLIC_API_URL=http://127.0.0.1:8001/api npm run test:e2e
+npm run test:e2e
 ```
 
 The suite covers overview aggregation, explorer filters, ordered flagship trace evidence, repeated-call diagnostics, comparison, and serious/critical Axe findings across the primary routes.

@@ -71,7 +71,7 @@ PYTHONPATH=backend:sdk uv run pytest
 cd frontend && npm run validate
 ```
 
-With the API running, execute `npm run test:e2e` in `frontend` for the Playwright and Axe suite. See [docs/testing.md](docs/testing.md).
+After the production frontend build, execute `npm run test:e2e` in `frontend`. Playwright manages an isolated SQLite API and the frontend server for the browser and Axe suite. See [docs/testing.md](docs/testing.md).
 
 ## Project structure
 
@@ -98,7 +98,7 @@ docs/                       architecture, development, and testing notes
 - streaming or batched span delivery;
 - background diagnostic processing for higher throughput;
 - project access controls;
-- deployment and public repository links once actual destinations are supplied.
+- deployment hardening and an optional hosted demo.
 
 ## Contributing and license
 
